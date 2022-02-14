@@ -5,25 +5,25 @@ import rhino3dm from "https://cdn.jsdelivr.net/npm/rhino3dm@7.11.1/rhino3dm.modu
 import { RhinoCompute } from "https://cdn.jsdelivr.net/npm/compute-rhino3d@0.13.0-beta/compute.rhino3d.module.js";
 import { Rhino3dmLoader } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examples/jsm/loaders/3DMLoader.js";
 
-const definitionName = "rnd_node.gh";
-//const definitionName = "Screen_Tilt.gh";
+//const definitionName = "rnd_node.gh";
+const definitionName = "Screen_Tilt.gh";
 
 // Set up sliders
-const radius_slider = document.getElementById("radius");
-radius_slider.addEventListener("mouseup", onSliderChange, false);
-radius_slider.addEventListener("touchend", onSliderChange, false);
+// const RotationAngle_slider = document.getElementById("RotationAngle");
+// RotationAngle_slider.addEventListener("mouseup", onSliderChange, false);
+// RotationAngle_slider.addEventListener("touchend", onSliderChange, false);
 
-const count_slider = document.getElementById("count");
-count_slider.addEventListener("mouseup", onSliderChange, false);
-count_slider.addEventListener("touchend", onSliderChange, false);
+// const ApertureScale_slider = document.getElementById("ApertureScale");
+// ApertureScale_slider.addEventListener("mouseup", onSliderChange, false);
+// ApertureScale_slider.addEventListener("touchend", onSliderChange, false);
 
-// const radius_slider = document.getElementById("RotationAngle");
-// radius_slider.addEventListener("mouseup", onSliderChange, false);
-// radius_slider.addEventListener("touchend", onSliderChange, false);
+const RotationAngle_slider = document.getElementById("RotationAngle");
+RotationAngle_slider.addEventListener("mouseup", onSliderChange, false);
+RotationAngle_slider.addEventListener("touchend", onSliderChange, false);
 
-// const count_slider = document.getElementById("ApertureScale");
-// count_slider.addEventListener("mouseup", onSliderChange, false);
-// count_slider.addEventListener("touchend", onSliderChange, false);
+const ApertureScale_slider = document.getElementById("ApertureScale");
+ApertureScale_slider.addEventListener("mouseup", onSliderChange, false);
+ApertureScale_slider.addEventListener("touchend", onSliderChange, false);
 
 const loader = new Rhino3dmLoader();
 loader.setLibraryPath("https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/");
@@ -51,11 +51,11 @@ rhino3dm().then(async (m) => {
 });
 
 async function compute() {
-  const param1 = new RhinoCompute.Grasshopper.DataTree("Radius");
-  param1.append([0], [radius_slider.valueAsNumber]);
+  const param1 = new RhinoCompute.Grasshopper.DataTree("RotationAngle");
+  param1.append([0], [RotationAngle_slider.valueAsNumber]);
 
-  const param2 = new RhinoCompute.Grasshopper.DataTree("Count");
-  param2.append([0], [count_slider.valueAsNumber]);
+  const param2 = new RhinoCompute.Grasshopper.DataTree("ApertureScale");
+  param2.append([0], [ApertureScale_slider.valueAsNumber]);
 
   // clear values
   const trees = [];
@@ -91,7 +91,7 @@ async function compute() {
   // go through the objects in the Rhino document
 
   let objects = doc.objects();
-  for ( let i = 0; i < objects.count; i++ ) {
+  for ( let i = 0; i < objects.ApertureScale; i++ ) {
   
     const rhinoObject = objects.get( i );
 
@@ -99,7 +99,7 @@ async function compute() {
      // asign geometry userstrings to object attributes 
      //The userstrings are GH properties, 
      //and the attributes are Rhino properties)
-    if ( rhinoObject.geometry().userStringCount > 0 ) {
+    if ( rhinoObject.geometry().userStringApertureScale > 0 ) {
       const g_userStrings = rhinoObject.geometry().getUserStrings()
       //console.log(g_userStrings) to see the userstrings arrays in the browser :)
       rhinoObject.attributes().setUserString(g_userStrings[0][0], g_userStrings[0][1])
@@ -123,7 +123,7 @@ async function compute() {
     object.traverse((child) => {
       if (child.isLine) {
         //if the child is a line, get its properties & convert to threejs color
-        if (child.userData.attributes.geometry.userStringCount > 0) {
+        if (child.userData.attributes.geometry.userStringApertureScale > 0) {
           
           //get color from userStrings
           const colorData = child.userData.attributes.userStrings[0]
