@@ -51,10 +51,10 @@ rhino3dm().then(async (m) => {
 });
 
 async function compute() {
-  const param1 = new RhinoCompute.Grasshopper.DataTree("Radius");
+  const param1 = new RhinoCompute.Grasshopper.DataTree("RotationAngle");
   param1.append([0], [radius_slider.valueAsNumber]);
 
-  const param2 = new RhinoCompute.Grasshopper.DataTree("Count");
+  const param2 = new RhinoCompute.Grasshopper.DataTree("ApertureScale");
   param2.append([0], [count_slider.valueAsNumber]);
 
   // clear values
@@ -101,7 +101,7 @@ async function compute() {
      //and the attributes are Rhino properties)
     if ( rhinoObject.geometry().userStringCount > 0 ) {
       const g_userStrings = rhinoObject.geometry().getUserStrings()
-      //console.log(g_userStrings) to see the userstrings arrays in the browser :)
+      console.log(g_userStrings) 
       rhinoObject.attributes().setUserString(g_userStrings[0][0], g_userStrings[0][1])
       
     }

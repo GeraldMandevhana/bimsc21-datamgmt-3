@@ -9,14 +9,6 @@ import { Rhino3dmLoader } from "https://cdn.jsdelivr.net/npm/three@0.124.0/examp
 const definitionName = "Screen_Tilt.gh";
 
 // Set up sliders
-// const RotationAngle_slider = document.getElementById("RotationAngle");
-// RotationAngle_slider.addEventListener("mouseup", onSliderChange, false);
-// RotationAngle_slider.addEventListener("touchend", onSliderChange, false);
-
-// const ApertureScale_slider = document.getElementById("ApertureScale");
-// ApertureScale_slider.addEventListener("mouseup", onSliderChange, false);
-// ApertureScale_slider.addEventListener("touchend", onSliderChange, false);
-
 const RotationAngle_slider = document.getElementById("RotationAngle");
 RotationAngle_slider.addEventListener("mouseup", onSliderChange, false);
 RotationAngle_slider.addEventListener("touchend", onSliderChange, false);
@@ -91,7 +83,7 @@ async function compute() {
   // go through the objects in the Rhino document
 
   let objects = doc.objects();
-  for ( let i = 0; i < objects.ApertureScale; i++ ) {
+  for ( let i = 0; i < objects.count; i++ ) {
   
     const rhinoObject = objects.get( i );
 
@@ -99,10 +91,13 @@ async function compute() {
      // asign geometry userstrings to object attributes 
      //The userstrings are GH properties, 
      //and the attributes are Rhino properties)
-    if ( rhinoObject.geometry().userStringApertureScale > 0 ) {
+    if ( rhinoObject.geometry().userStringCount > 0 ) {
       const g_userStrings = rhinoObject.geometry().getUserStrings()
-      //console.log(g_userStrings) to see the userstrings arrays in the browser :)
+      console.log(g_userStrings)
       rhinoObject.attributes().setUserString(g_userStrings[0][0], g_userStrings[0][1])
+
+      //const length = rhinoObject.geometry().getUserStrings()[1]
+      //console.log(length)
       
     }
   }
@@ -123,7 +118,7 @@ async function compute() {
     object.traverse((child) => {
       if (child.isLine) {
         //if the child is a line, get its properties & convert to threejs color
-        if (child.userData.attributes.geometry.userStringApertureScale > 0) {
+        if (child.userData.attributes.geometry.userStringCount > 0) {
           
           //get color from userStrings
           const colorData = child.userData.attributes.userStrings[0]
@@ -162,7 +157,7 @@ function init() {
     75,
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    500
   );
   camera.position.z = -30;
 
